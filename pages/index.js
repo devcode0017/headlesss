@@ -20,10 +20,19 @@ export default function Home({ posts }) {
                     <h2 style={{ marginBottom: "1rem" }}>Blog</h2>
                     <Grid>
                         {posts.map(({ node }) => {
+                            console.log(node);
                             return (
                                 <div className="post-card" key={node.slug}>
+                                    {
+                                        node.featuredImage && <img src={node.featuredImage.node.sourceUrl}  width="100%"/>
+                                    }
                                     <h3>{node.title}</h3>
-                                    <span>{formatDate(node.date)}</span>
+                                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                                        {
+                                            node.categories && <div>{node.categories.nodes[0].name}</div>
+                                        }
+                                        <div>{formatDate(node.date)}</div>
+                                    </div>
                                     <Link href={`/blog/` + node.slug} passHref>
                                         <a aria-label={node.title}></a>
                                     </Link>
