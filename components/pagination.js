@@ -7,18 +7,17 @@ const pagination = ({posts, currentPost}) => {
         let arr= [];
         for(low; low <= high; low++){
             posts[low-1] && arr.push(posts[low - 1]);
-            console.log(low)
         }
         currentPost(arr);
     }
 
 
-    const handlePagination = (e, Tpage) => {
+    const handlePagination = (e) => {
         let num = [];
         if(e >= 1 && e <= 4){
             let i = 0;
             console.log(i, e)
-            for(i ; i < Tpage; i++){
+            for(i ; i < 4; i++){
                 num.push(i+1);
             }
         }
@@ -32,12 +31,37 @@ const pagination = ({posts, currentPost}) => {
     }
 
     const handleRightClick = (e) => {
+        console.log(e)
+        let num = [];
         let i = e;
-        for(i; i<= e+3; i++){
-            num.push(i);
-        }
+        if(totalPage >= currentPages[3]){
+            for(i; i<= e+3; i++){
+                i <= totalPage && num.push(i);
+            }
+            setCurrentPages(num);
+        } 
+        
     }
 
+    const handleLeftClick = (e) => {
+        console.log(e)
+        let num = [];
+        if((e - 3) < 0){
+            let i = 1;
+            for(i; i <= 4; i++){
+                num.push(i);
+            }
+            setCurrentPages(num);
+        }
+        else {
+            let i = e - 3;
+            for(i; i<= e; i++){
+                num.push(i);
+            }
+            setCurrentPages(num);
+        }
+        
+    }
 
     const [currentPages, setCurrentPages] = useState([])
     const totalPage = Math.ceil(posts.length / 6);
@@ -48,23 +72,30 @@ const pagination = ({posts, currentPost}) => {
     }
     useEffect(() => {
         handleClick(1);
-        handlePagination(1, totalPage);
+        handlePagination(1);
     }, [])
   return (
     <div style={{textAlign: 'center', marginTop: "20px"}}>
         {
-            currentPages[0] > 5 && <><FaAngleLeft onClick={handleRightClick(currentPages[3])}/><a href='#' onClick={() => handleClick(1)}>{1}</a>...</>
+            currentPages[0] > 1 && <>
+                                        <FaAngleLeft style={{cursor: "pointer"}} onClick={() => handleLeftClick(currentPages[0])}/>
+                                        <a style={{padding: "20px"}} href='#' onClick={() => handleClick(1)}>{1}</a>
+                                        <span>...</span>
+                                        </>
         }
         {
             currentPages.map((e) => {
-                console.log(e);
                 return(
                         <a style={{padding: "20px"}} href="#" onClick={() => handleClick(e)} key={e}>{e}</a>
                 )
             })
         }
         {
-            currentPages[3] > 5 && <>...<a href='#' onClick={() => handleClick(totalPage)}>{totalPage}</a><FaAngleRight onClick={handleRightClick(currentPages[3])}/></>
+            (totalPage > 5 && currentPages[currentPages.length - 1] != totalPage) && <>
+                                <span>...</span>
+                                <a style={{padding: "20px"}} href='#' onClick={() => handleClick(totalPage)}>{totalPage}</a>
+                                <FaAngleRight style={{cursor: "pointer"}} onClick={() => handleRightClick(currentPages[3])}/>
+                            </>
         }
         
     </div>
