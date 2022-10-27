@@ -1,11 +1,17 @@
+import { useState } from "react";
 import { styled } from "goober";
 import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
 import { getPostsForHome } from "../lib/api";
 import { formatDate } from "../utils/functions";
+import Pagination from "../components/pagination"
 
 export default function Home({ posts }) {
+    const [disPlayposts, setDisplayPost] = useState([]);
+    const getCurrentPost = (e) => {
+        setDisplayPost(e);
+    }
     return (
         <>
             <Main>
@@ -19,8 +25,7 @@ export default function Home({ posts }) {
                 <div className="post-div">
                     <h2 style={{ marginBottom: "1rem" }}>Blog</h2>
                     <Grid>
-                        {posts.map(({ node }) => {
-                            console.log(node);
+                        {disPlayposts.map(({ node }) => {
                             return (
                                 <div className="post-card" key={node.slug}>
                                     {
@@ -41,6 +46,7 @@ export default function Home({ posts }) {
                         })}
                     </Grid>
                 </div>
+                <Pagination posts={posts} currentPost={getCurrentPost}/>
                 <div
                     style={{
                         display: "flex",

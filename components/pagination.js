@@ -7,18 +7,18 @@ const pagination = ({posts, currentPost}) => {
         let arr= [];
         for(low; low <= high; low++){
             posts[low-1] && arr.push(posts[low - 1]);
-            // console.log(low)
+            console.log(low)
         }
         currentPost(arr);
     }
 
 
-    const handlePagination = (e) => {
+    const handlePagination = (e, Tpage) => {
         let num = [];
         if(e >= 1 && e <= 4){
             let i = 0;
             console.log(i, e)
-            for(i ; i <= e; i++){
+            for(i ; i < Tpage; i++){
                 num.push(i+1);
             }
         }
@@ -48,7 +48,7 @@ const pagination = ({posts, currentPost}) => {
     }
     useEffect(() => {
         handleClick(1);
-        handlePagination(1);
+        handlePagination(1, totalPage);
     }, [])
   return (
     <div style={{textAlign: 'center', marginTop: "20px"}}>
