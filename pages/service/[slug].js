@@ -1,13 +1,12 @@
 import Head from 'next/head';
-import Link from 'next/link';
-import Image from 'next/image';
+import { styled } from 'goober';
 import ErrorPage from 'next/error';
 import { useRouter } from 'next/router';
-import { getAllPageSlugs, getPage } from '../lib/api';
-import { styled } from 'goober';
-import Html2react from '../components/html2react';
 
-export default function Blog({ page }) {
+import Html2react from '../../components/html2react';
+import { getAllPageSlugs, getPage } from '../../lib/api';
+
+export default function Services({ page }) {
   const router = useRouter();
 
   if (!router.isFallback && !page?.slug) {
@@ -21,7 +20,7 @@ export default function Blog({ page }) {
       ) : (
         <>
           <Head>
-            <title>{page.title} - Kasper Aamodt</title>
+            <title>{page.title}</title>
             <meta content={page.excerpt} name='description' />
           </Head>
 
@@ -35,9 +34,7 @@ export default function Blog({ page }) {
 }
 
 export async function getStaticProps({ params }) {
-  const data = await getPage(params.slug);
-
-  console.log(data);
+  const data = await getPage(`/service/${params.slug}`);
 
   return {
     props: {
@@ -50,7 +47,7 @@ export async function getStaticPaths() {
   const pages = await getAllPageSlugs();
 
   return {
-    paths: pages.edges.map(({ node }) => `/${node.slug}`) || [],
+    paths: pages.edges.map(({ node }) => `/service/${node.slug}`) || [],
     fallback: true
   };
 }
