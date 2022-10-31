@@ -3,13 +3,16 @@ import { styled } from 'goober';
 import ErrorPage from 'next/error';
 import { useRouter } from 'next/router';
 
-import Html2react from '../../components/html2react';
-import { getAllPageSlugs, getPage } from '../../lib/api';
+import Html2react from '../../../components/html2react';
+import { getAllPageSlugs, getPage } from '../../../lib/api';
 
 export default function Services({ page }) {
   const router = useRouter();
 
   if (!router.isFallback && !page?.slug) {
+    return <ErrorPage statusCode={404} />;
+  }
+  if (page?.content === null) {
     return <ErrorPage statusCode={404} />;
   }
 
@@ -33,22 +36,13 @@ export default function Services({ page }) {
   );
 }
 
-export async function getStaticProps({ params }) {
-  const data = await getPage(`/service/${params.slug}`);
+export async function getServerSideProps({ params }) {
+  const data = await getPage(`/service/${params.slug}/${params.nextSlug}`);
 
   return {
     props: {
       page: data
     }
-  };
-}
-
-export async function getStaticPaths() {
-  const pages = await getAllPageSlugs();
-
-  return {
-    paths: pages.edges.map(({ node }) => `/service/${node.slug}`) || [],
-    fallback: true
   };
 }
 
