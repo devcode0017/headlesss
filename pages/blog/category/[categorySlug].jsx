@@ -4,8 +4,6 @@ import { getPostsForCategory } from '../../../lib/api';
 import { formatDate } from '../../../utils/functions';
 
 export default function Category({ category, posts }) {
-  console.log(posts[0]);
-
   return (
     <div>
       <h1>category: {category}</h1>
