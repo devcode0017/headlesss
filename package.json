@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aamodtgroup/gutenberg-styles": "^12.5.4",
+    "date-fns": "^2.29.3",
     "goober": "^2.1.8",
     "html-react-parser": "^1.4.9",
     "install": "^0.13.0",
