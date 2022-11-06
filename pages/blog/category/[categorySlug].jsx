@@ -1,4 +1,5 @@
 import { styled } from 'goober';
+import Link from 'next/link';
 
 import { getPostsForCategory } from '../../../lib/api';
 import { formatDate } from '../../../utils/functions';
@@ -11,12 +12,14 @@ export default function Category({ category, posts }) {
       <PostsContainer>
         {(posts.length &&
           posts?.map(({ node }) => (
-            <div key={node.slug}>
-              {node.featuredImage && <img src={node.featuredImage.node.sourceUrl} width='100%' alt='' />}
-              <h3>{node.title}</h3>
-              <p> {category}</p>
-              <p>{formatDate(node.date)}</p>
-            </div>
+            <Link href={`/blog/${node.slug}`} key={node.slug}>
+              <a>
+                {node.featuredImage && <img src={node.featuredImage.node.sourceUrl} width='100%' alt='' />}
+                <h3>{node.title}</h3>
+                <p> {category}</p>
+                <p>{formatDate(node.date)}</p>
+              </a>
+            </Link>
           ))) || <p>No posts found.</p>}
       </PostsContainer>
     </div>
@@ -39,8 +42,12 @@ const PostsContainer = styled('div')`
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-
   gap: 20px;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
 
   > div {
     width: min(100%, 400px);

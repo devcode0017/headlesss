@@ -37,8 +37,6 @@ export default function Blog({ page }) {
 export async function getStaticProps({ params }) {
   const data = await getPage(params.slug);
 
-  console.log(data);
-
   return {
     props: {
       page: data

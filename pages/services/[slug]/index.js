@@ -36,22 +36,13 @@ export default function Services({ page }) {
   );
 }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const data = await getPage(`/service/${params.slug}`);
 
   return {
     props: {
       page: data
     }
-  };
-}
-
-export async function getStaticPaths() {
-  const pages = await getAllPageSlugs();
-
-  return {
-    paths: pages.edges.map(({ node }) => `/service/${node.slug}`) || [],
-    fallback: true
   };
 }
 
