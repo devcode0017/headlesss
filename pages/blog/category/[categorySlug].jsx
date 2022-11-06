@@ -1,8 +1,11 @@
 import { styled } from 'goober';
 
 import { getPostsForCategory } from '../../../lib/api';
+import { formatDate } from '../../../utils/functions';
 
 export default function Category({ category, posts }) {
+  console.log(posts[0]);
+
   return (
     <div>
       <h1>category: {category}</h1>
@@ -13,7 +16,8 @@ export default function Category({ category, posts }) {
             <div key={node.slug}>
               {node.featuredImage && <img src={node.featuredImage.node.sourceUrl} width='100%' alt='' />}
               <h3>{node.title}</h3>
-              <div dangerouslySetInnerHTML={{ __html: node.excerpt }} />
+              <p> {category}</p>
+              <p>{formatDate(node.date)}</p>
             </div>
           ))) || <p>No posts found.</p>}
       </PostsContainer>
@@ -36,16 +40,16 @@ const PostsContainer = styled('div')`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
 
   gap: 20px;
 
   > div {
-    flex-basis: 30%;
+    width: min(100%, 400px);
   }
 
   img {
-    max-width: 300px;
+    max-width: 100%;
     max-height: 300px;
     object-fit: cover;
   }
