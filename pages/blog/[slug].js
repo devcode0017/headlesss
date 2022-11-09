@@ -3,14 +3,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ErrorPage from 'next/error';
 import { useRouter } from 'next/router';
-import { getAllPostSlugs, getPostAndMorePosts } from '../../lib/api';
+import { getPostAndMorePosts } from '../../lib/api';
 import { styled } from 'goober';
 import { formatDate, metaDescription, removeTags } from '../../utils/functions';
 import parse, { domToReact } from 'html-react-parser';
 
-export default function Blog({ blog, blogs }) {
+export default function Blog({ blog, moreBlogs }) {
   const router = useRouter();
-  blogs = blogs?.edges;
+
+  console.log(moreBlogs);
 
   if (!router.isFallback && !blog?.slug) {
     return <ErrorPage statusCode={404} />;
@@ -69,17 +70,13 @@ export default function Blog({ blog, blogs }) {
           <Related>
             <h2 style={{ marginBottom: '1rem' }}>More to read</h2>
             <Grid>
-              {blogs.map(({ node }) => {
-                return (
-                  <div className='post-card' key={node.slug}>
-                    <h3>{node.title}</h3>
-                    <span>{formatDate(node.date)}</span>
-                    <Link href={`/blog/` + node.slug} passHref>
-                      <a aria-label={node.title}></a>
-                    </Link>
-                  </div>
-                );
-              })}
+              <div className='post-card' key={moreBlogs.slug}>
+                <h3>{moreBlogs.title}</h3>
+                <span>{formatDate(moreBlogs.date)}</span>
+                <Link href={`/blog/` + moreBlogs.slug} passHref>
+                  <a aria-label={moreBlogs.title}></a>
+                </Link>
+              </div>
             </Grid>
             <div
               style={{
@@ -103,7 +100,7 @@ export async function getServerSideProps({ params }) {
   return {
     props: {
       blog: data.post,
-      blogs: data.posts
+      moreBlogs: data?.posts?.edges[0]?.node
     }
   };
 }
