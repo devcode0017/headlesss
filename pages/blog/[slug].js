@@ -1,17 +1,19 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { styled } from 'goober';
 import ErrorPage from 'next/error';
 import { useRouter } from 'next/router';
-import { getPostAndMorePosts } from '../../lib/api';
-import { styled } from 'goober';
-import { formatDate, metaDescription, removeTags } from '../../utils/functions';
 import parse, { domToReact } from 'html-react-parser';
 
-export default function Blog({ blog, moreBlogs }) {
+import { getPostAndMorePosts, getPostForCategory } from '../../lib/api';
+import { formatDate, metaDescription, removeTags } from '../../utils/functions';
+import { SocialShareAndCategory } from '../../components/SocialShareAndCategory';
+
+export default function Blog({ blog, moreBlog }) {
   const router = useRouter();
 
-  console.log(moreBlogs);
+  const categories = blog?.categories?.edges?.map((node) => node.node.name).filter(Boolean);
 
   if (!router.isFallback && !blog?.slug) {
     return <ErrorPage statusCode={404} />;
@@ -65,19 +67,24 @@ export default function Blog({ blog, moreBlogs }) {
                 priority
               />
             )}
-            <div style={{ marginBottom: '0px' }}>{parse(blog.content, replaceImage)}</div>
+            <div style={{ marginBottom: '0px' }}>{parse(blog?.content || '', replaceImage)}</div>
+
+            <SocialShareAndCategory categories={categories} slug={blog.slug} />
           </Main>
+
           <Related>
             <h2 style={{ marginBottom: '1rem' }}>More to read</h2>
-            <Grid>
-              <div className='post-card' key={moreBlogs.slug}>
-                <h3>{moreBlogs.title}</h3>
-                <span>{formatDate(moreBlogs.date)}</span>
-                <Link href={`/blog/` + moreBlogs.slug} passHref>
-                  <a aria-label={moreBlogs.title}></a>
-                </Link>
-              </div>
-            </Grid>
+            {moreBlog?.slug ? (
+              <Grid>
+                <div className='post-card' key={moreBlog.slug}>
+                  {moreBlog.featuredImage && <img src={moreBlog.featuredImage.node.sourceUrl} width='100%' alt='' />}
+
+                  <h3>{moreBlog.title}</h3>
+                </div>
+              </Grid>
+            ) : (
+              <p>no related blog found</p>
+            )}
             <div
               style={{
                 display: 'flex',
@@ -97,10 +104,14 @@ export default function Blog({ blog, moreBlogs }) {
 export async function getServerSideProps({ params }) {
   const data = await getPostAndMorePosts(params.slug);
 
+  const categoryId = data?.post?.categories?.edges[0]?.node?.categoryId || null;
+
+  const relatedPost = await getPostForCategory(categoryId, data.post.id);
+
   return {
     props: {
       blog: data.post,
-      moreBlogs: data?.posts?.edges[0]?.node
+      moreBlog: relatedPost.node || null
     }
   };
 }
