@@ -45,7 +45,7 @@ export const SocialShareAndCategory = ({ categories, slug }: Props) => {
       <CategoryContainer>
         <p>category: </p>
         {categories?.length &&
-          categories.map((category, index) => (
+          categories.slice(0, 1).map((category, index) => (
             <span key={category}>
               <Link href={`/blog/category/${category}`} key={category}>
                 <a>{category}</a>
