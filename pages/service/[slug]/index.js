@@ -1,29 +1,20 @@
-import { HeroSection } from '../../../components/serviceComponents/HeroSection';
+import ErrorPage from 'next/error';
+
+import { fetchAPI } from '../../../lib/api';
+import { destructureFields } from '../../../utils/functions';
 import { SectionTwo } from '../../../components/serviceComponents/SectionTwo';
-import { getPageSections, fetchAPI } from '../../../lib/api';
+import { HeroSection } from '../../../components/serviceComponents/HeroSection';
 
 export default function ServicePage({ data }) {
-  const { h1 = '', herobg = '', heroh2 = '', herop = '' } = data || {};
+  const heroSectionData = destructureFields(data, 'hero');
+  const sectionTwoData = destructureFields(data, 'sectwo');
 
-  const {
-    sectwoH3 = '',
-    sectwoH4 = '',
-    sectwoP = '',
-    sectwoleftimg = '',
-    sectwoexpClosed = '',
-    sectwoexpH3 = '',
-    sectwoexpOpen = '',
-    sectwoexpP = '',
-    sectwoexpPStrong = ''
-  } = data || {};
+  if (!data || !Object.keys(data).length) return <ErrorPage statusCode={404} />;
 
   return (
     <>
-      <HeroSection data={{ h1, herobg, heroh2, herop }} />
-
-      <SectionTwo data={{ sectwoH3, sectwoH4, sectwoP, sectwoleftimg, sectwoexpClosed, sectwoexpH3, sectwoexpOpen, sectwoexpP, sectwoexpPStrong }} />
-
-      <p>abc</p>
+      <HeroSection data={heroSectionData} />
+      <SectionTwo data={sectionTwoData} />
     </>
   );
 }
@@ -41,7 +32,7 @@ export async function getServerSideProps({ params }) {
           slug
           ${pageSectionName} {
             fieldGroupName
-            h1
+            heroh1
             herobg {
               mediaItemUrl
             }
@@ -78,9 +69,7 @@ export async function getServerSideProps({ params }) {
 
   return {
     props: {
-      data: {
-        ...sectionsData
-      }
+      data: sectionsData
     }
   };
 }

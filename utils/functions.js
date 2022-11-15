@@ -11,3 +11,17 @@ export function metaDescription(str) {
 export function removeTags(str) {
   return str.toString().replace(/(<([^>]+)>)/gi, '');
 }
+
+export const destructureFields = (data, name) => {
+  if (!data || !Object.keys(data).length) return {};
+
+  const obj = {};
+
+  Object.keys(data).forEach((key) => {
+    if (key.includes(name)) {
+      obj[key] = data[key];
+    }
+  });
+
+  return obj;
+};
