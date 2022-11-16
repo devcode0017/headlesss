@@ -1,7 +1,7 @@
 import { styled } from 'goober';
 
 export const HeroSection = ({ data }) => {
-  const { h1, herobg, heroh2, herop } = data;
+  const { h1 = '', herobg = '', heroh2 = '', herop = '' } = data;
 
   return (
     <Container bg={herobg.mediaItemUrl}>

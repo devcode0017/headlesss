@@ -27,15 +27,19 @@ export default function Home({ posts }) {
             {displayPosts.map(({ node }) => {
               return (
                 <div className='post-card' key={node.slug}>
-                  {node.featuredImage && <img src={node.featuredImage.node.sourceUrl} width='100%' alt='' />}
-                  <h3>{node.title}</h3>
+                  <Link href={`/blog/${node.slug}`}>
+                    <a>
+                      {node.featuredImage && <img src={node.featuredImage.node.sourceUrl} width='100%' alt='' />}
+                      <h3>{node.title}</h3>
+                    </a>
+                  </Link>
+
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    {node.categories && <div>{node.categories.nodes[0].name}</div>}
+                    <Link href={`/blog/category/${node.categories.nodes[0].name}`}>
+                      <a>{node.categories && <div>{node.categories.nodes[0].name}</div>}</a>
+                    </Link>
                     <div>{formatDate(node.date)}</div>
                   </div>
-                  <Link href={`/blog/` + node.slug} passHref>
-                    <a aria-label={node.title}></a>
-                  </Link>
                 </div>
               );
             })}
@@ -119,14 +123,8 @@ const Grid = styled('div')`
       );
     }
     a {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      opacity: 0;
-      height: 100%;
-      width: 100%;
       text-decoration: none;
+      color: black;
     }
     h3 {
       margin-bottom: 20px;
