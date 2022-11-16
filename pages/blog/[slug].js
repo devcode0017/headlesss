@@ -106,7 +106,7 @@ export async function getServerSideProps({ params }) {
 
   const categoryId = data?.post?.categories?.edges[0]?.node?.categoryId || null;
 
-  const relatedPost = await getPostForCategory(categoryId, data.post.id);
+  const relatedPost = await getPostForCategory(categoryId, data?.post?.id);
 
   return {
     props: {
