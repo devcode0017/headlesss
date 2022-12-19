@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { getPostsForHome } from '../lib/api';
 import { formatDate } from '../utils/functions';
 import Pagination from '../components/pagination';
+import Header from '../components/Header/header';
 
 export default function Home({ posts }) {
   const [displayPosts, setDisplayPost] = useState([]);
@@ -16,6 +17,7 @@ export default function Home({ posts }) {
   return (
     <>
       <Main>
+        <Header />
         <div>
           <h1>Blog example</h1>
           <p>Blogging about stuff, mostly tech.</p>
@@ -54,6 +56,22 @@ export default function Home({ posts }) {
           }}
         >
           <Link href='/blog'>View all</Link>
+        </div>
+        <div id='section1'>
+            <h1 style={{textAlign: 'center'}}>Section1</h1>
+            <p style={{fontSize: '18px', lineHeight: '1.6em'}}>Cillum ea cupidatat Lorem fugiat adipisicing dolore elit voluptate mollit nisi voluptate esse. Id sit enim in labore sint fugiat sunt aliqua adipisicing velit do. Occaecat magna sunt enim do. Quis cupidatat enim dolore esse dolore et ex dolore aute enim duis qui irure. Magna anim mollit commodo et officia exercitation aliqua. In tempor aute veniam id. Cillum ea cupidatat Lorem fugiat adipisicing dolore elit voluptate mollit nisi voluptate esse. Id sit enim in labore sint fugiat sunt aliqua adipisicing velit do. Occaecat magna sunt enim do. Quis cupidatat enim dolore esse dolore et ex dolore aute enim duis qui irure. Magna anim mollit commodo et officia exercitation aliqua. In tempor aute veniam id.</p>
+        </div>
+        <div id='section2'>
+            <h1 style={{textAlign: 'center'}}>Section2</h1>
+            <p style={{fontSize: '18px', lineHeight: '1.6em'}}>Cillum ea cupidatat Lorem fugiat adipisicing dolore elit voluptate mollit nisi voluptate esse. Id sit enim in labore sint fugiat sunt aliqua adipisicing velit do. Occaecat magna sunt enim do. Quis cupidatat enim dolore esse dolore et ex dolore aute enim duis qui irure. Magna anim mollit commodo et officia exercitation aliqua. In tempor aute veniam id. Cillum ea cupidatat Lorem fugiat adipisicing dolore elit voluptate mollit nisi voluptate esse. Id sit enim in labore sint fugiat sunt aliqua adipisicing velit do. Occaecat magna sunt enim do. Quis cupidatat enim dolore esse dolore et ex dolore aute enim duis qui irure. Magna anim mollit commodo et officia exercitation aliqua. In tempor aute veniam id.</p>
+        </div>
+        <div id='section3'>
+            <h1 style={{textAlign: 'center'}}>Section3</h1>
+            <p style={{fontSize: '18px', lineHeight: '1.6em'}}>Cillum ea cupidatat Lorem fugiat adipisicing dolore elit voluptate mollit nisi voluptate esse. Id sit enim in labore sint fugiat sunt aliqua adipisicing velit do. Occaecat magna sunt enim do. Quis cupidatat enim dolore esse dolore et ex dolore aute enim duis qui irure. Magna anim mollit commodo et officia exercitation aliqua. In tempor aute veniam id. Cillum ea cupidatat Lorem fugiat adipisicing dolore elit voluptate mollit nisi voluptate esse. Id sit enim in labore sint fugiat sunt aliqua adipisicing velit do. Occaecat magna sunt enim do. Quis cupidatat enim dolore esse dolore et ex dolore aute enim duis qui irure. Magna anim mollit commodo et officia exercitation aliqua. In tempor aute veniam id.</p>
+        </div>
+        <div id='section4'>
+            <h1 style={{textAlign: 'center'}}>Section4</h1>
+            <p style={{fontSize: '18px', lineHeight: '1.6em'}}>Cillum ea cupidatat Lorem fugiat adipisicing dolore elit voluptate mollit nisi voluptate esse. Id sit enim in labore sint fugiat sunt aliqua adipisicing velit do. Occaecat magna sunt enim do. Quis cupidatat enim dolore esse dolore et ex dolore aute enim duis qui irure. Magna anim mollit commodo et officia exercitation aliqua. In tempor aute veniam id. Cillum ea cupidatat Lorem fugiat adipisicing dolore elit voluptate mollit nisi voluptate esse. Id sit enim in labore sint fugiat sunt aliqua adipisicing velit do. Occaecat magna sunt enim do. Quis cupidatat enim dolore esse dolore et ex dolore aute enim duis qui irure. Magna anim mollit commodo et officia exercitation aliqua. In tempor aute veniam id.</p>
         </div>
       </Main>
     </>
